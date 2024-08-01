@@ -7,3 +7,8 @@ def create_browser_session() -> None:
 
 def scrape_all_details() -> None:
     pass
+
+
+if __name__ == "__main__":
+    create_browser_session()
+    scrape_all_details()
