@@ -17,7 +17,7 @@ from playwright.sync_api import sync_playwright
 import time
 from bs4 import BeautifulSoup
 import multiprocessing
-import flet
+import flet as ft
 import os
 import json
 
@@ -177,10 +177,88 @@ def split_list(l, n):
     return (l[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n))
 
 
-if __name__ == "__main__":
+def gui_main(page:ft.Page):
+    page.window.height = 570
+    page.window.width = 900
+    page.padding = 0
+    page.window.max_height = 570
+    page.window.max_width = 900
+    page.title = "MapScraper Live"
+    page.window.maximizable = False
+    page.window.resizable = False  # window is not resizable
+    page.bgcolor = "#292829"
+    page.fonts = {
+        "Orbitron": "fonts/orbitron_font.ttf"
+    }
+    side_card = ft.Container(
+        width = 280,
+        height= 150,
+        bgcolor="#292829",
+        shadow = ft.BoxShadow(spread_radius=10,blur_radius=10,color="#000000", offset=(0,0), blur_style=ft.ShadowBlurStyle.OUTER),
+    )
+    logo = ft.Image(src="images/logo.png", width=190, height=190)
+    logo_card = ft.Container(
+        width=500,
+        height=240,
+        bgcolor="#292829",
+        padding=1,
+        margin=0,
+        content=ft.Row(
+            spacing=0,
+            run_spacing=0,
+            wrap=False,
+            vertical_alignment=ft.VerticalAlignment.START,
+            controls=[
+                ft.Column(
+                    controls=[logo]
+                ),
+                ft.Column(
+                    controls=[
+                    ft.Text("  ", size=10),
+                    ft.Text("MapScraper\nLive", size=50, color="#FFFFFF", font_family="Orbitron"),
+                    ]
+                ),
+                ft.Text("    ", size=30),
+                ft.Column(
+                    controls=[
+                    ft.Text("  ", size=20),
+                    side_card
+                    ]
+                )
+            ]
+            )
+        )
+    controls_card = ft.Container(
+        width=810,
+        height=250,
+        bgcolor="#292829",
+        shadow = ft.BoxShadow(spread_radius=10,blur_radius=10,color="#000000", offset=(0,0), blur_style=ft.ShadowBlurStyle.OUTER),
+    )
+    # Main Page Controls
+    page.add(
+        ft.Column(
+            spacing=0, 
+            controls=[
+                logo_card,
+                ft.Row(
+                    controls=[
+                        ft.Text("     ", size=20),
+                        controls_card
+                    ]
+                )
+            ]
+        )
+    )
+    page.update()
+
+
+def start_scraping():
     check_settings_file()
     browser = create_browser_session(False)
-    # set load strategy to 
     browser.goto("https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1", wait_until="domcontentloaded")
     browser.wait_for_selector('h1[class="DUwDvf lfPIob"]', timeout=10000)
     print(page_parser(browser.url,"458967",browser.content(), {"Link": True, "Image": True, "Name": True, "Rating": True, "Expensiveness": True, "No of Reviews": True, "Type": True, "Address": True, "Close Timing": True, "Menu Link": True, "Website": True, "Location Plus Code": True, "Phone No": True, "Reservation Link": True}))
+
+if __name__ == "__main__":
+    cwd = os.getcwd()
+    ft.app(target=gui_main, assets_dir="assets")
