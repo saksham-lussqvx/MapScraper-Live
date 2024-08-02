@@ -320,3 +320,12 @@ def start_scraping():
 # Main driver Code
 if __name__ == "__main__":
     ft.app(target=gui_main, assets_dir="assets")
+
+# Further Short Term Plans
+
+# 1. Design MenuBar in the GUI and code it afterwards
+# 2. Create A Home Page and Settings page as per the above mentioned format
+# 3. Add the functionality to save the settings
+# 4. Add the functionality to load the settings
+# 5. Add the functionality to start the scraping
+# 6. Add the functionality to stop the scraping
