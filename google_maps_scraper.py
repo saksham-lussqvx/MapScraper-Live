@@ -53,15 +53,15 @@ def check_settings_file() -> None:
                 "Reservation Link": True
             }
         }
-    with open("settings.json", "w") as f:
-        json.dump(settings, f)
+        with open("settings.json", "w") as f:
+            json.dump(settings, f)
 
 
 
 def create_browser_session():
     p = sync_playwright().start()
-    browser = p.chromium.launch(headless=False)
-    context = browser.new_context()
+    browser = p.chromium.launch( headless=False,args=["--start-maximized", "--window-size=1920,1080"])
+    context = browser.new_context(viewport={"width": 1920, "height": 1080})
     page = context.new_page()
     return page
 
@@ -70,6 +70,13 @@ def scrape_all_details() -> None:
     pass
 
 
+def split_list(l, n):
+    k, m = divmod(len(l), n)
+    return (l[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n))
+
+
 if __name__ == "__main__":
     check_settings_file()
     browser = create_browser_session()
+    browser.goto("https://www.google.com/maps")
+    time.sleep(10)
