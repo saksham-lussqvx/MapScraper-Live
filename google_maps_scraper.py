@@ -77,7 +77,95 @@ def page_parser(link:str, image:str, html_content:str, variables:dict) -> None:
                 if value == True:
                     data["Image"] = image
             if key == "Name":
-                pass
+                if value == True:
+                    #DUwDvf lfPIob
+                    name = soup.find("h1", class_="DUwDvf lfPIob").text
+                    data["Name"] = name
+            if key == "Rating":
+                try:
+                    if value == True:
+                        rating = soup.find("div", class_="F7nice").text
+                        data["Rating"] = rating.split("(")[0]
+                except:
+                    data["Rating"] = ""
+            if key == "Expensiveness":
+                try:
+                    if value == True:
+                        spans = soup.find_all("span")
+                        for span in spans:
+                            if "aria-label" in span.attrs:
+                                if "Price: " in span["aria-label"]:
+                                    expensiveness = span.text
+                        data["Expensiveness"] = expensiveness
+                except:
+                    data["Expensiveness"] = ""
+            if key == "No of Reviews":
+                try:
+                    if value == True:
+                        no_of_reviews = soup.find("div", class_="F7nice").text
+                        data["No of Reviews"] = no_of_reviews.split("(")[1].replace("(", "").replace(")", "")
+                except:
+                    data["No of Reviews"] = ""
+            if key == "Type":
+                try:
+                    if value == True:
+                        type_ = soup.find("button", class_="DkEaL")
+                        data["Type"] = type_.text
+                except:
+                    data["Type"] = ""
+            if key == "Address":
+                try:
+                    if value == True:
+                        address = soup.find("div", class_="rogA2c").text
+                        data["Address"] = address
+                except:
+                    data["Address"] = ""
+            if key == "Timing":
+                try:
+                    if value == True:
+                        timing = soup.find("span", class_="ZDu9vd")
+                        data["Timing"] = timing.text
+                except:
+                    data["Timing"] = ""
+            if key == "Menu Link":
+                if value == True:
+                    try:
+                        menu_link = soup.find("a", {"data-item-id": "menu"})
+                        data["Menu Link"] = menu_link["href"]
+                    except:
+                        data["Menu Link"] = ""
+            if key == "Website":
+                if value == True:
+                    try:
+                        website_tag = soup.find("a", {"data-item-id": "authority"})
+                        website = website_tag["href"]
+                        data["Website"] = website
+                    except:
+                        data["Website"] = ""
+            if key == "Location Plus Code":
+                if value == True:
+                    try:
+                        location_plus_code = soup.find("button", {"data-tooltip": "Copy plus code"})
+                        location_plus_code = location_plus_code.find("div", "rogA2c")
+                        data["Location Plus Code"] = location_plus_code.text
+                    except:
+                        data["Location Plus Code"] = ""
+            if key == "Phone No":
+                if value == True:
+                    try:
+                        phone_no = soup.find("button", {"data-tooltip": "Copy phone number"})
+                        data["Phone No"] = phone_no.find("div", "rogA2c").text
+                    except:
+                        data["Phone No"] = ""
+            if key == "Reservation Link":
+                if value == True:
+                    try:
+                        reservation_link = soup.find("a", {"data-tooltip": "Open reservation link"})
+                        data["Reservation Link"] = reservation_link["href"]
+                    except:
+                        data["Reservation Link"] = ""
+    return data
+
 
 
 def scrape_all_details() -> None:
@@ -92,5 +180,6 @@ def split_list(l, n):
 if __name__ == "__main__":
     check_settings_file()
     browser = create_browser_session()
-    browser.goto("https://www.google.com/maps")
-    time.sleep(10)
+    browser.goto("https://www.google.com/maps/place/Dream+Bean+Cafe/@22.3215475,73.1885908,17z/data=!3m1!4b1!4m6!3m5!1s0x395fcf49f1825555:0x9a879cbf387cfaf9!8m2!3d22.3215475!4d73.1885908!16s%2Fg%2F11g6_34l1d?authuser=0&hl=en&entry=ttu")
+    browser.wait_for_selector('h1[class="DUwDvf lfPIob"]', timeout=10000)
+    print(page_parser(browser.url,"458967",browser.content(), {"Link": True, "Image": True, "Name": True, "Rating": True, "Expensiveness": True, "No of Reviews": True, "Type": True, "Address": True, "Close Timing": True, "Menu Link": True, "Website": True, "Location Plus Code": True, "Phone No": True, "Reservation Link": True}))
