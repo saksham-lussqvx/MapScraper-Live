@@ -57,13 +57,27 @@ def check_settings_file() -> None:
             json.dump(settings, f)
 
 
-
 def create_browser_session():
     p = sync_playwright().start()
     browser = p.chromium.launch( headless=False,args=["--start-maximized", "--window-size=1920,1080"])
     context = browser.new_context(viewport={"width": 1920, "height": 1080})
     page = context.new_page()
     return page
+
+
+def page_parser(link:str, image:str, html_content:str, variables:dict) -> None:
+    soup = BeautifulSoup(html_content, "html.parser")
+    data = {}
+    for key, value in variables.items():
+        if value:
+            if key == "Link":
+                if value == True:
+                    data["Link"] = link
+            if key == "Image":
+                if value == True:
+                    data["Image"] = image
+            if key == "Name":
+                pass
 
 
 def scrape_all_details() -> None:
