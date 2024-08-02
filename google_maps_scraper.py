@@ -57,9 +57,9 @@ def check_settings_file() -> None:
             json.dump(settings, f)
 
 
-def create_browser_session():
+def create_browser_session(headless:bool) -> None:
     p = sync_playwright().start()
-    browser = p.chromium.launch( headless=False,args=["--start-maximized", "--window-size=1920,1080"])
+    browser = p.chromium.launch( headless=headless,args=["--start-maximized", "--window-size=1920,1080"])
     context = browser.new_context(viewport={"width": 1920, "height": 1080})
     page = context.new_page()
     return page
@@ -179,7 +179,8 @@ def split_list(l, n):
 
 if __name__ == "__main__":
     check_settings_file()
-    browser = create_browser_session()
-    browser.goto("https://www.google.com/maps/place/Dream+Bean+Cafe/@22.3215475,73.1885908,17z/data=!3m1!4b1!4m6!3m5!1s0x395fcf49f1825555:0x9a879cbf387cfaf9!8m2!3d22.3215475!4d73.1885908!16s%2Fg%2F11g6_34l1d?authuser=0&hl=en&entry=ttu")
+    browser = create_browser_session(False)
+    # set load strategy to 
+    browser.goto("https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1", wait_until="domcontentloaded")
     browser.wait_for_selector('h1[class="DUwDvf lfPIob"]', timeout=10000)
     print(page_parser(browser.url,"458967",browser.content(), {"Link": True, "Image": True, "Name": True, "Rating": True, "Expensiveness": True, "No of Reviews": True, "Type": True, "Address": True, "Close Timing": True, "Menu Link": True, "Website": True, "Location Plus Code": True, "Phone No": True, "Reservation Link": True}))
