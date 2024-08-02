@@ -23,7 +23,7 @@ import json
 
 
 def check_settings_file() -> None:
-    # We will check ifthe file exists of not with default values, if it doesn't then we will save all 
+    # We will check if the file exists of not with default values, if it doesn't then we will save all
     # those in a file so that user settings can also be saved for future use
     if os.path.exists("settings.json"):
         pass
@@ -50,22 +50,33 @@ def check_settings_file() -> None:
                 "Website": True,
                 "Location Plus Code": True,
                 "Phone No": True,
-                "Reservation Link": True
-            }
+                "Reservation Link": True,
+            },
         }
         with open("settings.json", "w") as f:
             json.dump(settings, f)
 
 
-def create_browser_session(headless:bool) -> None:
+def create_browser_session(headless: bool) -> None:
+    # Here we will create a browser session and return the page object
+    # You can configure the browser settings here such as heigh and stuff
     p = sync_playwright().start()
-    browser = p.chromium.launch( headless=headless,args=["--start-maximized", "--window-size=1920,1080"])
+    browser = p.chromium.launch(
+        headless=headless, args=["--start-maximized", "--window-size=1920,1080"]
+    )
     context = browser.new_context(viewport={"width": 1920, "height": 1080})
     page = context.new_page()
     return page
 
 
-def page_parser(link:str, image:str, html_content:str, variables:dict) -> None:
+def page_parser(link: str, image: str, html_content: str, variables: dict) -> None:
+    # we will parse the page and return the data
+    # Current Variables: Link, Image, name, Rating, Expensiveness, No of Reviews, Type, Address, Close Timing, Menu Link, website, Location Plus Code, Phone No, reservation Link
+
+    # For the image, what we will do is that, we will fetch the image, and then the pre-assigned number will be used as image name
+    # so it is linked with the entry as such.
+
+    # Yeah the parsing code can be written in a better way, but for now this is fine
     soup = BeautifulSoup(html_content, "html.parser")
     data = {}
     for key, value in variables.items():
@@ -78,7 +89,7 @@ def page_parser(link:str, image:str, html_content:str, variables:dict) -> None:
                     data["Image"] = image
             if key == "Name":
                 if value == True:
-                    #DUwDvf lfPIob
+                    # DUwDvf lfPIob
                     name = soup.find("h1", class_="DUwDvf lfPIob").text
                     data["Name"] = name
             if key == "Rating":
@@ -103,7 +114,11 @@ def page_parser(link:str, image:str, html_content:str, variables:dict) -> None:
                 try:
                     if value == True:
                         no_of_reviews = soup.find("div", class_="F7nice").text
-                        data["No of Reviews"] = no_of_reviews.split("(")[1].replace("(", "").replace(")", "")
+                        data["No of Reviews"] = (
+                            no_of_reviews.split("(")[1]
+                            .replace("(", "")
+                            .replace(")", "")
+                        )
                 except:
                     data["No of Reviews"] = ""
             if key == "Type":
@@ -145,7 +160,9 @@ def page_parser(link:str, image:str, html_content:str, variables:dict) -> None:
             if key == "Location Plus Code":
                 if value == True:
                     try:
-                        location_plus_code = soup.find("button", {"data-tooltip": "Copy plus code"})
+                        location_plus_code = soup.find(
+                            "button", {"data-tooltip": "Copy plus code"}
+                        )
                         location_plus_code = location_plus_code.find("div", "rogA2c")
                         data["Location Plus Code"] = location_plus_code.text
                     except:
@@ -153,19 +170,22 @@ def page_parser(link:str, image:str, html_content:str, variables:dict) -> None:
             if key == "Phone No":
                 if value == True:
                     try:
-                        phone_no = soup.find("button", {"data-tooltip": "Copy phone number"})
+                        phone_no = soup.find(
+                            "button", {"data-tooltip": "Copy phone number"}
+                        )
                         data["Phone No"] = phone_no.find("div", "rogA2c").text
                     except:
                         data["Phone No"] = ""
             if key == "Reservation Link":
                 if value == True:
                     try:
-                        reservation_link = soup.find("a", {"data-tooltip": "Open reservation link"})
+                        reservation_link = soup.find(
+                            "a", {"data-tooltip": "Open reservation link"}
+                        )
                         data["Reservation Link"] = reservation_link["href"]
                     except:
                         data["Reservation Link"] = ""
     return data
-
 
 
 def scrape_all_details() -> None:
@@ -173,11 +193,15 @@ def scrape_all_details() -> None:
 
 
 def split_list(l, n):
+    # Basically will be used to split the zip codes into n parts which then will be passed to the processes
     k, m = divmod(len(l), n)
-    return (l[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n))
+    return (l[i * k + min(i, m) : (i + 1) * k + min(i + 1, m)] for i in range(n))
 
 
-def gui_main(page:ft.Page):
+def gui_main(page: ft.Page):
+    # GUI code (Man it takes too much time to write this)
+
+    # Window Settings
     page.window.height = 570
     page.window.width = 900
     page.padding = 0
@@ -187,15 +211,22 @@ def gui_main(page:ft.Page):
     page.window.maximizable = False
     page.window.resizable = False  # window is not resizable
     page.bgcolor = "#292829"
-    page.fonts = {
-        "Orbitron": "fonts/orbitron_font.ttf"
-    }
+    # Fonts
+    page.fonts = {"Orbitron": "fonts/orbitron_font.ttf"}
+    # This is where start and stop button will be placed
     side_card = ft.Container(
-        width = 280,
-        height= 150,
+        width=280,
+        height=150,
         bgcolor="#292829",
-        shadow = ft.BoxShadow(spread_radius=10,blur_radius=10,color="#000000", offset=(0,0), blur_style=ft.ShadowBlurStyle.OUTER),
+        shadow=ft.BoxShadow(
+            spread_radius=10,
+            blur_radius=10,
+            color="#000000",
+            offset=(0, 0),
+            blur_style=ft.ShadowBlurStyle.OUTER,
+        ),
     )
+    # Logo of the app (Made using ChatGPT 4)
     logo = ft.Image(src="images/logo.png", width=190, height=190)
     logo_card = ft.Container(
         width=500,
@@ -209,56 +240,83 @@ def gui_main(page:ft.Page):
             wrap=False,
             vertical_alignment=ft.VerticalAlignment.START,
             controls=[
-                ft.Column(
-                    controls=[logo]
-                ),
+                ft.Column(controls=[logo]),
                 ft.Column(
                     controls=[
-                    ft.Text("  ", size=10),
-                    ft.Text("MapScraper\nLive", size=50, color="#FFFFFF", font_family="Orbitron"),
+                        ft.Text("  ", size=10),
+                        ft.Text(
+                            "MapScraper\nLive",
+                            size=50,
+                            color="#FFFFFF",
+                            font_family="Orbitron",
+                        ),
                     ]
                 ),
                 ft.Text("    ", size=30),
-                ft.Column(
-                    controls=[
-                    ft.Text("  ", size=20),
-                    side_card
-                    ]
-                )
-            ]
-            )
-        )
+                ft.Column(controls=[ft.Text("  ", size=20), side_card]),
+            ],
+        ),
+    )
+    # Controls Card, this is basically where all of the settings will be placed
     controls_card = ft.Container(
         width=810,
         height=250,
         bgcolor="#292829",
-        shadow = ft.BoxShadow(spread_radius=10,blur_radius=10,color="#000000", offset=(0,0), blur_style=ft.ShadowBlurStyle.OUTER),
+        shadow=ft.BoxShadow(
+            spread_radius=10,
+            blur_radius=10,
+            color="#000000",
+            offset=(0, 0),
+            blur_style=ft.ShadowBlurStyle.OUTER,
+        ),
     )
     # Main Page Controls
     page.add(
         ft.Column(
-            spacing=0, 
+            spacing=0,
             controls=[
                 logo_card,
-                ft.Row(
-                    controls=[
-                        ft.Text("     ", size=20),
-                        controls_card
-                    ]
-                )
-            ]
+                ft.Row(controls=[ft.Text("     ", size=20), controls_card]),
+            ],
         )
     )
     page.update()
 
 
+# Main Function to start scraping, will connect it with the GUI later
 def start_scraping():
     check_settings_file()
     browser = create_browser_session(False)
-    browser.goto("https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1", wait_until="domcontentloaded")
+    browser.goto(
+        "https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1",
+        wait_until="domcontentloaded",
+    )
     browser.wait_for_selector('h1[class="DUwDvf lfPIob"]', timeout=10000)
-    print(page_parser(browser.url,"458967",browser.content(), {"Link": True, "Image": True, "Name": True, "Rating": True, "Expensiveness": True, "No of Reviews": True, "Type": True, "Address": True, "Close Timing": True, "Menu Link": True, "Website": True, "Location Plus Code": True, "Phone No": True, "Reservation Link": True}))
+    print(
+        page_parser(
+            browser.url,
+            "458967",
+            browser.content(),
+            {
+                "Link": True,
+                "Image": True,
+                "Name": True,
+                "Rating": True,
+                "Expensiveness": True,
+                "No of Reviews": True,
+                "Type": True,
+                "Address": True,
+                "Close Timing": True,
+                "Menu Link": True,
+                "Website": True,
+                "Location Plus Code": True,
+                "Phone No": True,
+                "Reservation Link": True,
+            },
+        )
+    )
 
+
+# Main driver Code
 if __name__ == "__main__":
-    cwd = os.getcwd()
     ft.app(target=gui_main, assets_dir="assets")
