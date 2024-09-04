@@ -20,6 +20,7 @@ import multiprocessing
 import flet as ft
 import os
 import json
+from all_css_ids import all_ids
 
 
 def check_settings_file() -> None:
@@ -90,7 +91,7 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
             if key == "Name":
                 if value == True:
                     # DUwDvf lfPIob
-                    name = soup.find("h1", class_="DUwDvf lfPIob").text
+                    name = soup.find("h1", class_=all_ids.name).text
                     data["Name"] = name
             if key == "Rating":
                 try:

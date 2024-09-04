@@ -1,0 +1,2 @@
+# ignore all json files which mainly are the configuration files
+*.json
