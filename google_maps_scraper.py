@@ -228,7 +228,7 @@ def gui_main(page: ft.Page):
         ),
     )
     # Logo of the app (Made using ChatGPT 4)
-    logo = ft.Image(src="images/logo.png", width=190, height=190)
+    logo = ft.Image(src="images/logo.png", width=170, height=170)
     logo_card = ft.Container(
         width=500,
         height=240,
