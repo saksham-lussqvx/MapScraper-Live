@@ -96,7 +96,7 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
             if key == "Rating":
                 try:
                     if value == True:
-                        rating = soup.find("div", class_="F7nice").text
+                        rating = soup.find("span", class_=all_ids.rating).text
                         data["Rating"] = rating.split("(")[0]
                 except:
                     data["Rating"] = ""
@@ -114,7 +114,7 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
             if key == "No of Reviews":
                 try:
                     if value == True:
-                        no_of_reviews = soup.find("div", class_="F7nice").text
+                        no_of_reviews = soup.find("div", class_=all_ids.rating).text
                         data["No of Reviews"] = (
                             no_of_reviews.split("(")[1]
                             .replace("(", "")
@@ -125,28 +125,28 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
             if key == "Type":
                 try:
                     if value == True:
-                        type_ = soup.find("button", class_="DkEaL")
+                        type_ = soup.find("button", class_=all_ids._type)
                         data["Type"] = type_.text
                 except:
                     data["Type"] = ""
             if key == "Address":
                 try:
                     if value == True:
-                        address = soup.find("div", class_="rogA2c").text
+                        address = soup.find("div", class_=all_ids.address).text
                         data["Address"] = address
                 except:
                     data["Address"] = ""
             if key == "Timing":
                 try:
                     if value == True:
-                        timing = soup.find("span", class_="ZDu9vd")
+                        timing = soup.find("span", class_=all_ids.timing)
                         data["Timing"] = timing.text
                 except:
                     data["Timing"] = ""
             if key == "Menu Link":
                 if value == True:
                     try:
-                        menu_link = soup.find("a", {"data-item-id": "menu"})
+                        menu_link = soup.find("a", all_ids.menu)
                         data["Menu Link"] = menu_link["href"]
                     except:
                         data["Menu Link"] = ""
