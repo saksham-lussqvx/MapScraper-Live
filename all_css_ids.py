@@ -8,5 +8,10 @@ class all_ids:
     _type = "DkEaL"
     address = "rogA2c"
     timing = "ZDu9vd"
-    menu = {"data-item-id": "menu"}
-    website = {"data-item-id": "authority"}
+    menu_dict = {"data-item-id": "menu"}
+    website_dict = {"data-item-id": "authority"}
+    location_plus_dict = {"data-tooltip": "Copy plus code"}
+    location_plus_code = "rogA2c"
+    phone_no_dict = {"data-tooltip": "Copy phone number"}
+    phone_no_code = "rogA2c"
+    reservation_dict = {"data-tooltip": "Open reservation link"}

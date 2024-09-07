@@ -146,14 +146,14 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
             if key == "Menu Link":
                 if value == True:
                     try:
-                        menu_link = soup.find("a", all_ids.menu)
+                        menu_link = soup.find("a", all_ids.menu_dict)
                         data["Menu Link"] = menu_link["href"]
                     except:
                         data["Menu Link"] = ""
             if key == "Website":
                 if value == True:
                     try:
-                        website_tag = soup.find("a", {"data-item-id": "authority"})
+                        website_tag = soup.find("a", all_ids.website_dict)
                         website = website_tag["href"]
                         data["Website"] = website
                     except:
@@ -162,9 +162,9 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
                 if value == True:
                     try:
                         location_plus_code = soup.find(
-                            "button", {"data-tooltip": "Copy plus code"}
+                            "button", all_ids.location_plus_dict
                         )
-                        location_plus_code = location_plus_code.find("div", "rogA2c")
+                        location_plus_code = location_plus_code.find("div", all_ids.location_plus_code)
                         data["Location Plus Code"] = location_plus_code.text
                     except:
                         data["Location Plus Code"] = ""
@@ -172,16 +172,16 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
                 if value == True:
                     try:
                         phone_no = soup.find(
-                            "button", {"data-tooltip": "Copy phone number"}
+                            "button", all_ids.phone_no_dict
                         )
-                        data["Phone No"] = phone_no.find("div", "rogA2c").text
+                        data["Phone No"] = phone_no.find("div", all_ids.phone_no_code).text
                     except:
                         data["Phone No"] = ""
             if key == "Reservation Link":
                 if value == True:
                     try:
                         reservation_link = soup.find(
-                            "a", {"data-tooltip": "Open reservation link"}
+                            "a", all_ids.reservation_dict
                         )
                         data["Reservation Link"] = reservation_link["href"]
                     except:
