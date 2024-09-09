@@ -224,9 +224,9 @@ def gui_main(page: ft.Page):
     # Window Settings
     page.window.height = 570
     page.window.width = 900
-    page.padding = 0
-    page.window.max_height = 570
-    page.window.max_width = 900
+    page.padding = 20
+    page.window.max_height = 590
+    page.window.max_width = 910
     page.title = "MapScraper Live"
     page.window.maximizable = False
     page.window.resizable = False  # window is not resizable
@@ -296,7 +296,7 @@ def gui_main(page: ft.Page):
             spacing=0,
             controls=[
                 logo_card,
-                ft.Row(controls=[ft.Text("     ", size=20), controls_card]),
+                ft.Row(controls=[ft.Text("    ", size=10), controls_card]),
             ],
         )
     )
