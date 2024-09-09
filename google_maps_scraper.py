@@ -21,9 +21,11 @@ import flet as ft
 import os
 import json
 
+
+#the reason a class is used is because it is easier to manage the ids and classes of the elements
+# these are elements which will be continuously used in the code and will tend to change a lot as google updates their website
+# so it is better to keep them in a class so that they can be easily changed and also the variable naming won't interfere with the other variables
 class all_ids:
-    def __init__(self):
-        pass
     # create ids as class variables
     name = "DUwDvf lfPIob"
     rating = "F7nice"
@@ -307,7 +309,7 @@ def start_scraping():
     browser = create_browser_session(False)
     browser.goto(
         "https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1",
-        wait_until="domcontentloaded",
+        #wait_until="domcontentloaded",
     )
     browser.wait_for_selector('h1[class="DUwDvf lfPIob"]', timeout=10000)
     print(
@@ -333,11 +335,13 @@ def start_scraping():
             },
         )
     )
+    input("Press Enter to exit")
 
 
 # Main driver Code
 if __name__ == "__main__":
-    ft.app(target=gui_main, assets_dir="assets")
+    #ft.app(target=gui_main, assets_dir="assets")
+    start_scraping()
 
 # Further Short Term Plans
 
