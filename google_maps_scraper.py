@@ -335,13 +335,11 @@ def start_scraping():
             },
         )
     )
-    input("Press Enter to exit")
 
 
 # Main driver Code
 if __name__ == "__main__":
-    #ft.app(target=gui_main, assets_dir="assets")
-    start_scraping()
+    ft.app(target=gui_main, assets_dir="assets")
 
 # Further Short Term Plans
 
