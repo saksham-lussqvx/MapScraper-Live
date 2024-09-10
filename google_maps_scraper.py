@@ -232,7 +232,7 @@ def gui_main(page: ft.Page):
     page.window.resizable = False  # window is not resizable
     page.bgcolor = "#292829"
     # Fonts
-    page.fonts = {"Orbitron": "fonts/orbitron_font.ttf"}
+    page.fonts = {"Orbitron": "fonts/orbitron_font.ttf", "Chakra": "fonts/chakra.ttf"}
     # This is where start and stop button will be placed
     side_card = ft.Container(
         width=280,
@@ -245,6 +245,18 @@ def gui_main(page: ft.Page):
             offset=(0, 0),
             blur_style=ft.ShadowBlurStyle.OUTER,
         ),
+        content=ft.Column(
+            controls=[
+                ft.ElevatedButton(
+                    content= ft.Text("Start", size=30, color="#FFFFFF", font_family="Chakra"),
+                    bgcolor="#1E90FF",
+                    width=130,
+                    height=40,
+                    on_click=start_scraping,
+                ),
+                ft.Text("    ", size=10),
+            ]
+        )
     )
     # Logo of the app (Made using ChatGPT 4)
     logo = ft.Image(src="images/logo.png", width=170, height=170)
@@ -311,7 +323,7 @@ def start_scraping():
         "https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1",
         #wait_until="domcontentloaded",
     )
-    browser.wait_for_selector('h1[class="DUwDvf lfPIob"]', timeout=10000)
+    browser.wait_for_selector('', timeout=10000)
     print(
         page_parser(
             browser.url,
