@@ -259,8 +259,8 @@ def gui_main(page: ft.Page):
     page.window.max_height = 590
     page.window.max_width = 910
     page.title = "MapScraper Live"
-    page.window.maximizable = False
-    page.window.resizable = False  # window is not resizable
+    #page.window.maximizable = False
+    #page.window.resizable = False  # window is not resizable
     page.bgcolor = "#292829"
     # Fonts
     page.fonts = {"Orbitron": "fonts/orbitron_font.ttf", "Chakra": "fonts/chakra.ttf"}
@@ -276,38 +276,38 @@ def gui_main(page: ft.Page):
             offset=(0, 0),
             blur_style=ft.ShadowBlurStyle.OUTER,
         ),
-        padding=0,
         content=ft.Column(
-                    spacing=0,
-                    run_spacing=0,
-                    controls=[
-                        ft.Text("      Controller", size=32.5, color="#FFFFFF", font_family="Orbitron"),
-                        ft.Divider(thickness=5),
-                        ft.Divider(color="transparent"),
-                        ft.Divider(color="transparent"),
-                        ft.Row(
-                            spacing=0,
-                            controls=[
-                                ft.Text(" ", size=10),
-                                ft.ElevatedButton(
-                                    content= ft.Text("Start", size=30, color="#FFFFFF", font_family="Chakra"),
-                                    bgcolor="#1E90FF",
-                                    width=130,
-                                    height=40,
-                                    on_click=start_scraping,
-                                ),
-                                ft.Text("  ", size=20),
-                                ft.ElevatedButton(
-                                    content= ft.Text("Stop", size=30, color="#FFFFFF", font_family="Chakra"),
-                                    bgcolor="#FF0000",
-                                    width=130,
-                                    height=40,
-                                    on_click=None,
-                                ),
-                            ],
-                        ),
-                    ]
-                ),
+                spacing=0,
+                controls=[
+                    ft.Text("      Controller", size=32.5, color="#FFFFFF", font_family="Orbitron"),
+                    ft.Divider(thickness=5),
+                    ft.Divider(color="transparent"),
+                    ft.Divider(color="transparent"),
+                    ft.Row(
+                        spacing=0,
+                        controls=[
+                            ft.Text(" ", size=10),
+                            ft.FilledButton(
+                                content= ft.Text("Start", size=30, color="#FFFFFF", font_family="Chakra"),
+                                #bgcolor="#1E90FF",
+                                style=ft.ButtonStyle(bgcolor="#1E90FF"),
+                                width=130,
+                                height=40,
+                                on_click=start_scraping,
+                            ),
+                            ft.Text("  ", size=20),
+                            ft.FilledButton(
+                                content= ft.Text("Stop", size=30, color="#FFFFFF", font_family="Chakra"),
+                                #bgcolor="#FF0000",
+                                style=ft.ButtonStyle(bgcolor="#FF0000"),
+                                width=130,
+                                height=40,
+                                on_click=start_scraping,
+                            )
+                        ]
+                    )
+                ]
+            )
         )
     # Logo of the app (Made using ChatGPT 4)
     logo = ft.Image(src="images/logo.png", width=170, height=170)
@@ -317,27 +317,26 @@ def gui_main(page: ft.Page):
         bgcolor="#292829",
         padding=1,
         margin=0,
-        content=ft.Row(
-            spacing=0,
-            run_spacing=0,
-            wrap=False,
-            vertical_alignment=ft.VerticalAlignment.START,
-            controls=[
-                ft.Column(controls=[logo]),
-                ft.Column(
-                    controls=[
-                        ft.Text("  ", size=10),
-                        ft.Text(
-                            "MapScraper\nLive",
-                            size=50,
-                            color="#FFFFFF",
-                            font_family="Orbitron",
-                        ),
-                    ]
-                ),
-                ft.Text("    ", size=30),
-                ft.Column(controls=[ft.Text("  ", size=20), side_card]),
-            ],
+        content=ft.Container(
+            ft.Row(
+                spacing=0,
+                vertical_alignment=ft.VerticalAlignment.START,
+                controls=[
+                    ft.Column(controls=[logo]),
+                    ft.Column(
+                        controls=[
+                            ft.Text("  ", size=8),
+                            ft.Text(
+                                "MapScraper\nLive",
+                                size=50,
+                                color="#FFFFFF",
+                                font_family="Orbitron",
+                            ),
+                        ]
+                    ),
+                    ft.Text("    ", size=30),
+                ],
+            ),
         ),
     )
     # Controls Card, this is basically where all of the settings will be placed
@@ -350,7 +349,7 @@ def gui_main(page: ft.Page):
             blur_radius=10,
             color="#000000",
             offset=(0, 0),
-            blur_style=ft.ShadowBlurStyle.OUTER,
+            blur_style=ft.ShadowBlurStyle.OUTER
         ),
     )
     # Main Page Controls
@@ -358,14 +357,18 @@ def gui_main(page: ft.Page):
         ft.Column(
             spacing=0,
             controls=[
-                logo_card,
+                ft.Row(
+                    controls=[
+                        logo_card, 
+                        ft.Text("       ", size=15),
+                        side_card
+                    ]
+                ),
                 ft.Row(controls=[ft.Text("    ", size=10), controls_card]),
             ],
         )
     )
     page.update()
-
-
 
 
 # Main driver Code
