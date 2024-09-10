@@ -245,8 +245,11 @@ def gui_main(page: ft.Page):
             offset=(0, 0),
             blur_style=ft.ShadowBlurStyle.OUTER,
         ),
-        content=ft.Column(
+        padding=1,
+        content=ft.Row(
+            spacing=0,
             controls=[
+                ft.Text(" ", size=10),
                 ft.ElevatedButton(
                     content= ft.Text("Start", size=30, color="#FFFFFF", font_family="Chakra"),
                     bgcolor="#1E90FF",
@@ -254,7 +257,15 @@ def gui_main(page: ft.Page):
                     height=40,
                     on_click=start_scraping,
                 ),
-                ft.Text("    ", size=10),
+                ft.Text("  ", size=20),
+                ft.ElevatedButton(
+                    content= ft.Text("Stop", size=30, color="#FFFFFF", font_family="Chakra"),
+                    bgcolor="#FF0000",
+                    width=130,
+                    height=40,
+                    on_click=None,
+                ),
+
             ]
         )
     )
