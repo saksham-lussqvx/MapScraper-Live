@@ -208,8 +208,39 @@ def page_parser(link: str, image: str, html_content: str, variables: dict) -> No
     return data
 
 
-def scrape_all_details() -> None:
-    pass
+# Main Function to start scraping, will connect it with the GUI later
+def start_scraping(e):
+    print("Scraping Started")
+    check_settings_file()
+    browser = create_browser_session(False)
+    browser.goto(
+        "https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1",
+        #wait_until="domcontentloaded",
+    )
+    browser.wait_for_selector('', timeout=10000)
+    print(
+        page_parser(
+            browser.url,
+            "458967",
+            browser.content(),
+            {
+                "Link": True,
+                "Image": True,
+                "Name": True,
+                "Rating": True,
+                "Expensiveness": True,
+                "No of Reviews": True,
+                "Type": True,
+                "Address": True,
+                "Close Timing": True,
+                "Menu Link": True,
+                "Website": True,
+                "Location Plus Code": True,
+                "Phone No": True,
+                "Reservation Link": True,
+            },
+        )
+    )
 
 
 def split_list(l, n):
@@ -335,38 +366,6 @@ def gui_main(page: ft.Page):
     page.update()
 
 
-# Main Function to start scraping, will connect it with the GUI later
-def start_scraping():
-    check_settings_file()
-    browser = create_browser_session(False)
-    browser.goto(
-        "https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1",
-        #wait_until="domcontentloaded",
-    )
-    browser.wait_for_selector('', timeout=10000)
-    print(
-        page_parser(
-            browser.url,
-            "458967",
-            browser.content(),
-            {
-                "Link": True,
-                "Image": True,
-                "Name": True,
-                "Rating": True,
-                "Expensiveness": True,
-                "No of Reviews": True,
-                "Type": True,
-                "Address": True,
-                "Close Timing": True,
-                "Menu Link": True,
-                "Website": True,
-                "Location Plus Code": True,
-                "Phone No": True,
-                "Reservation Link": True,
-            },
-        )
-    )
 
 
 # Main driver Code
