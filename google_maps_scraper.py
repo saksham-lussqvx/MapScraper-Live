@@ -245,9 +245,15 @@ def gui_main(page: ft.Page):
             offset=(0, 0),
             blur_style=ft.ShadowBlurStyle.OUTER,
         ),
-        padding=1,
+        padding=0,
         content=ft.Column(
+                    spacing=0,
+                    run_spacing=0,
                     controls=[
+                        ft.Text("      Controller", size=32.5, color="#FFFFFF", font_family="Orbitron"),
+                        ft.Divider(thickness=5),
+                        ft.Divider(color="transparent"),
+                        ft.Divider(color="transparent"),
                         ft.Row(
                             spacing=0,
                             controls=[
