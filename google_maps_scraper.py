@@ -246,29 +246,32 @@ def gui_main(page: ft.Page):
             blur_style=ft.ShadowBlurStyle.OUTER,
         ),
         padding=1,
-        content=ft.Row(
-            spacing=0,
-            controls=[
-                ft.Text(" ", size=10),
-                ft.ElevatedButton(
-                    content= ft.Text("Start", size=30, color="#FFFFFF", font_family="Chakra"),
-                    bgcolor="#1E90FF",
-                    width=130,
-                    height=40,
-                    on_click=start_scraping,
+        content=ft.Column(
+                    controls=[
+                        ft.Row(
+                            spacing=0,
+                            controls=[
+                                ft.Text(" ", size=10),
+                                ft.ElevatedButton(
+                                    content= ft.Text("Start", size=30, color="#FFFFFF", font_family="Chakra"),
+                                    bgcolor="#1E90FF",
+                                    width=130,
+                                    height=40,
+                                    on_click=start_scraping,
+                                ),
+                                ft.Text("  ", size=20),
+                                ft.ElevatedButton(
+                                    content= ft.Text("Stop", size=30, color="#FFFFFF", font_family="Chakra"),
+                                    bgcolor="#FF0000",
+                                    width=130,
+                                    height=40,
+                                    on_click=None,
+                                ),
+                            ],
+                        ),
+                    ]
                 ),
-                ft.Text("  ", size=20),
-                ft.ElevatedButton(
-                    content= ft.Text("Stop", size=30, color="#FFFFFF", font_family="Chakra"),
-                    bgcolor="#FF0000",
-                    width=130,
-                    height=40,
-                    on_click=None,
-                ),
-
-            ]
         )
-    )
     # Logo of the app (Made using ChatGPT 4)
     logo = ft.Image(src="images/logo.png", width=170, height=170)
     logo_card = ft.Container(
