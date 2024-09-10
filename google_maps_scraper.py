@@ -312,22 +312,23 @@ def gui_main(page: ft.Page):
             )
         )
     # Logo of the app (Made using ChatGPT 4)
-    logo = ft.Image(src="images/logo.png", width=170, height=170)
+    logo = ft.Image(src="images/logo.png", width=150, height=150)
     logo_card = ft.Container(
         width=500,
         height=240,
         bgcolor="#292829",
-        padding=1,
+        padding=0,
         margin=0,
         content=ft.Container(
             ft.Row(
                 spacing=0,
                 vertical_alignment=ft.VerticalAlignment.START,
                 controls=[
-                    ft.Column(controls=[logo]),
+                    ft.Column(controls=[ft.Text(" ", size=3),logo]),
+                    ft.Text("      ", size=10),
                     ft.Column(
                         controls=[
-                            ft.Text("  ", size=8),
+                            ft.Text("  ", size=3),
                             ft.Text(
                                 "MapScraper\nLive",
                                 size=50,
