@@ -28,6 +28,7 @@ import json
 class all_ids:
     # create ids as class variables
     name = "DUwDvf lfPIob"
+    wait_selector = 'h1[class="DUwDvf lfPIob"]'
     rating = "F7nice"
     review = "F7nice"
     _type = "DkEaL"
@@ -215,9 +216,9 @@ def start_scraping(e):
     browser = create_browser_session(False)
     browser.goto(
         "https://www.google.com/maps/place/Size+Zero+Cafe/data=!4m7!3m6!1s0x395fc943e7491659:0x31673306a909fc88!8m2!3d22.3083244!4d73.1693718!16s%2Fg%2F11n0df00ky!19sChIJWRZJ50PJXzkRiPwJqQYzZzE?authuser=0&hl=en&rclk=1",
-        #wait_until="domcontentloaded",
+        wait_until="domcontentloaded",
     )
-    browser.wait_for_selector('', timeout=10000)
+    browser.wait_for_selector(all_ids.wait_selector, timeout=10000)
     print(
         page_parser(
             browser.url,
@@ -241,6 +242,7 @@ def start_scraping(e):
             },
         )
     )
+    browser.close()
 
 
 def split_list(l, n):
@@ -253,10 +255,10 @@ def gui_main(page: ft.Page):
     # GUI code (Man it takes too much time to write this)
 
     # Window Settings
-    page.window.height = 570
-    page.window.width = 900
+    page.window.height = 585
+    page.window.width = 905
     page.padding = 20
-    page.window.max_height = 590
+    page.window.max_height = 630
     page.window.max_width = 910
     page.title = "MapScraper Live"
     #page.window.maximizable = False
